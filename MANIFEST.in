@@ -1,0 +1,40 @@
+# Include all README
+global-include *.md
+
+# Include the license file
+include LICENSE.txt
+
+include requirements.txt
+include requirements.dev.txt
+
+include Makefile
+include gopath/src/github.com/fibercrypto/libfibercrypto/Makefile
+global-exclude *.a
+include skycoin.py
+
+global-include *.s
+global-include *.go
+global-include *.i
+graft swig/include
+graft gopath/src/github.com/fibercrypto/libfibercrypto/include
+
+prune docker
+graft swig/include *
+graft gopath/src/github.com/fibercrypto/libfibercrypto/include
+
+global-exclude __pycache__
+global-exclude .github
+global-exclude .travis
+global-exclude *.py[co]
+global-exclude *.orig
+prune lib
+prune fctest_cache
+prune .github
+prune .tox
+prune .travis
+prune .pytest_cache 
+prune .circleci
+global-exclude Dockerfile
+global-exclude Dockerfile-armv7
+global-exclude pyskycoin_wrap.c
+

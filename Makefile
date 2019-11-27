@@ -10,20 +10,20 @@ PYTHON_BIN   ?= python$(PYTHON)
 MKFILE_PATH   = $(abspath $(lastword $(MAKEFILE_LIST)))
 REPO_ROOT     = $(dir $(MKFILE_PATH))
 GOPATH_DIR    = gopath
-SKYLIBC_DIR  ?= $(GOPATH_DIR)/src/github.com/fibercrypto/libfibercrypto
-SKYCOIN_DIR  ?= $(SKYLIBC_DIR)/vendor/github.com/fibercrypto/FiberCryptoWallet
-SKYBUILD_DIR  = $(SKYLIBC_DIR)/build
-BUILDLIBC_DIR = $(SKYBUILD_DIR)/libfibercrypto
-LIBC_DIR      = $(SKYLIBC_DIR)/lib/cgo
+FCLIBC_DIR  ?= $(GOPATH_DIR)/src/github.com/fibercrypto/libfibercrypto
+FCCOIN_DIR  ?= $(FCLIBC_DIR)/vendor/github.com/fibercrypto/FiberCryptoWallet
+FCBUILD_DIR  = $(FCLIBC_DIR)/build
+BUILDLIBC_DIR = $(FCBUILD_DIR)/libfibercrypto
+LIBC_DIR      = $(FCLIBC_DIR)/lib/cgo
 LIBSWIG_DIR   = swig
 BUILD_DIR     = build
 DIST_DIR      = dist
-BIN_DIR       = $(SKYLIBC_DIR)/bin
-INCLUDE_DIR   = $(SKYLIBC_DIR)/include
+BIN_DIR       = $(FCLIBC_DIR)/bin
+INCLUDE_DIR   = $(FCLIBC_DIR)/include
 FULL_PATH_LIB = $(REPO_ROOT)/$(BUILDLIBC_DIR)
 
-LIB_FILES = $(shell find $(SKYLIBC_DIR)/lib/cgo -type f -name "*.go")
-SRC_FILES = $(shell find $(SKYCOIN_DIR)/src -type f -name "*.go")
+LIB_FILES = $(shell find $(FCLIBC_DIR)/lib/cgo -type f -name "*.go")
+SRC_FILES = $(shell find $(FCCOIN_DIR)/src -type f -name "*.go")
 SWIG_FILES = $(shell find $(LIBSWIG_DIR) -type f -name "*.i")
 HEADER_FILES = $(shell find $(INCLUDE_DIR) -type f -name "*.h")
 
@@ -45,17 +45,17 @@ configure: ## Configure build environment
 
 build-libc: configure ## Build libfibercrypto C client library
 	echo "Build libfibercrypto C client library"
-	GOPATH="$(REPO_ROOT)/$(GOPATH_DIR)" make -C $(SKYLIBC_DIR) clean-libc
-	GOPATH="$(REPO_ROOT)/$(GOPATH_DIR)" make -C $(SKYLIBC_DIR) build-libc
+	GOPATH="$(REPO_ROOT)/$(GOPATH_DIR)" make -C $(FCLIBC_DIR) clean-libc
+	GOPATH="$(REPO_ROOT)/$(GOPATH_DIR)" make -C $(FCLIBC_DIR) build-libc
 	rm -f swig/include/libfibercrypto.h
 	rm -f swig/include/swig.h
 	mkdir -p swig/include
-	cp $(SKYLIBC_DIR)/include/swig.h swig/include/
-	grep -v _Complex $(SKYLIBC_DIR)/include/libfibercrypto.h > swig/include/libfibercrypto.h
+	cp $(FCLIBC_DIR)/include/swig.h swig/include/
+	grep -v _Complex $(FCLIBC_DIR)/include/libfibercrypto.h > swig/include/libfibercrypto.h
 
 build-swig: ## Generate Python C module from SWIG interfaces
 	echo "Generate Python C module from SWIG interfaces"
-	#Generate structs.i from skytypes.gen.h
+	#Generate structs.i from FCtypes.gen.h
 	rm -f $(LIBSWIG_DIR)/structs.i
 	cp $(INCLUDE_DIR)/fctypes.gen.h $(LIBSWIG_DIR)/structs.i
 	{ \
@@ -65,20 +65,18 @@ build-swig: ## Generate Python C module from SWIG interfaces
 			sed -i 's/#/%/g' $(LIBSWIG_DIR)/structs.i ;\
 		fi \
 	}
-	rm -fv fc/fibercryptopy.py
-	rm -f swig/fibercrypto_wrap.c
+	rm -fv fibercryptopy/fibercryptopy.py
+	rm -f swig/fibercryptopy_wrap.c
 	rm -f swig/include/swig.h
-	swig -python -w501,505,401,302,509,451 -Iswig/include -I$(INCLUDE_DIR) -outdir ./fc/ -o swig/fibercrypto_wrap.c $(LIBSWIG_DIR)/fibercryptopy.i
+	swig -python -w501,505,401,302,509,451 -Iswig/include -I$(INCLUDE_DIR) -outdir ./fibercryptopy/ -o swig/fibercryptopy_wrap.c $(LIBSWIG_DIR)/fibercryptopy.i
 
 develop: ## Install fibercryptopy for development
 	$(PYTHON_BIN) setup.py develop
-	(cd $(PYTHON_CLIENT_DIR) && $(PYTHON_BIN) setup.py develop)
 
 build-libc-swig: build-libc build-swig
 
 build: build-libc-swig ## Build fibercryptopy Python package
 	$(PYTHON_BIN) setup.py build
-	(cd $(PYTHON_CLIENT_DIR) && $(PYTHON_BIN) setup.py build)
 
 test-ci: build-libc build-swig develop ## Run tests on (Travis) CI build
 	tox
@@ -92,11 +90,9 @@ test: test-libfc ## Run project test suite
 
 sdist: ## Create source distribution archive
 	$(PYTHON_BIN) setup.py sdist --formats=gztar
-	(cd $(PYTHON_CLIENT_DIR) && $(PYTHON_BIN) setup.py sdist --formats=gztar)
 
 bdist_wheel: ## Create architecture-specific binary wheel distribution archive
 	$(PYTHON_BIN) setup.py bdist_wheel
-	(cd $(PYTHON_CLIENT_DIR) && $(PYTHON_BIN) setup.py bdist_wheel)
 
 # FIXME: After libfibercrypto 32-bits binaries add bdist_manylinux_i686
 bdist_manylinux: bdist_manylinux_amd64 ## Create multilinux binary wheel distribution archives
@@ -129,11 +125,11 @@ lint: ## Linter to pylint
 	yamllint -d relaxed .travis.yml
 	
 clean: #Clean all
-	make -C $(SKYLIBC_DIR) clean-libc
+	make -C $(FCLIBC_DIR) clean-libc
 	$(PYTHON_BIN) -m pip uninstall -y fibercryptopy
 	rm -rfv tests/__pycache__
-	rm -rfv fc/__pycache__
-	rm -rfv fc/*.pyc
+	rm -rfv fibercryptopy/__pycache__
+	rm -rfv fibercryptopy/*.pyc
 	rm -rfv tests/*.pyc
 	rm -rfv tests/utils/*.pyc
 	rm -rfv tests/utils/__pycache__
