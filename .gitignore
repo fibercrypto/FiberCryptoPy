@@ -108,3 +108,4 @@ venv.bak/
 
 # Folder conf VScode
 .vscode
+.fiber/config.json
