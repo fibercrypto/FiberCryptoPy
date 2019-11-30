@@ -68,7 +68,7 @@ build-swig: ## Generate Python C module from SWIG interfaces
 	rm -fv fibercryptopy/fibercryptopy.py
 	rm -f swig/fibercryptopy_wrap.c
 	rm -f swig/include/swig.h
-	swig -python -w501,505,401,302,509,451 -Iswig/include -I$(INCLUDE_DIR) -outdir ./fibercryptopy/ -o swig/fibercryptopy_wrap.c $(LIBSWIG_DIR)/fibercryptopy.i
+	swig -python -py3 -w501,505,401,302,509,451 -Iswig/include -I$(INCLUDE_DIR) -outdir ./fibercryptopy/ -o swig/fibercryptopy_wrap.c $(LIBSWIG_DIR)/fibercryptopy.i
 
 develop: ## Install fibercryptopy for development
 	$(PYTHON_BIN) setup.py develop
