@@ -95,6 +95,10 @@ except __builtin__.Exception:
         pass
     _newclass = 0
 
+
+def equalSlices(slice1: 'GoSlice', slice2: 'GoSlice', elem_size: 'int') -> "int":
+    return _fibercryptopy.equalSlices(slice1, slice2, elem_size)
+equalSlices = _fibercryptopy.equalSlices
 class _GoString_(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, _GoString_, name, value)
@@ -178,41 +182,41 @@ GoSlice_swigregister = _fibercryptopy.GoSlice_swigregister
 GoSlice_swigregister(GoSlice)
 
 
-def SKY_JsonEncode_Handle(p0, p1):
-    return _fibercryptopy.SKY_JsonEncode_Handle(p0, p1)
-SKY_JsonEncode_Handle = _fibercryptopy.SKY_JsonEncode_Handle
-
-def FC_util_AltcoinCaption(p0, p1):
-    return _fibercryptopy.FC_util_AltcoinCaption(p0, p1)
+def FC_util_AltcoinCaption(p0: '_GoString_') -> "GoString_ *":
+    return _fibercryptopy.FC_util_AltcoinCaption(p0)
 FC_util_AltcoinCaption = _fibercryptopy.FC_util_AltcoinCaption
 
-def FC_handle_close(p0):
+def FC_handle_close(p0: 'Handle') -> "void":
     return _fibercryptopy.FC_handle_close(p0)
 FC_handle_close = _fibercryptopy.FC_handle_close
 
-def FC_util_Min(p0, p1, p2):
-    return _fibercryptopy.FC_util_Min(p0, p1, p2)
+def FC_util_Min(p0: 'GoInt', p1: 'GoInt') -> "GoInt *":
+    return _fibercryptopy.FC_util_Min(p0, p1)
 FC_util_Min = _fibercryptopy.FC_util_Min
 
-def FC_util_GetCoinValue(p0, p1, p2):
-    return _fibercryptopy.FC_util_GetCoinValue(p0, p1, p2)
+def FC_util_GetCoinValue(p0: '_GoString_', p1: '_GoString_') -> "GoUint64 *":
+    return _fibercryptopy.FC_util_GetCoinValue(p0, p1)
 FC_util_GetCoinValue = _fibercryptopy.FC_util_GetCoinValue
 
-def FC_util_FormatUint64(p0, p1):
-    return _fibercryptopy.FC_util_FormatUint64(p0, p1)
+def FC_util_FormatUint64(p0: 'GoUint64') -> "GoString_ *":
+    return _fibercryptopy.FC_util_FormatUint64(p0)
 FC_util_FormatUint64 = _fibercryptopy.FC_util_FormatUint64
 
-def FC_util_FormatCoins(p0, p1, p2):
-    return _fibercryptopy.FC_util_FormatCoins(p0, p1, p2)
+def FC_util_FormatCoins(p0: 'GoUint64', p1: 'GoUint64') -> "GoString_ *":
+    return _fibercryptopy.FC_util_FormatCoins(p0, p1)
 FC_util_FormatCoins = _fibercryptopy.FC_util_FormatCoins
 
-def FC_util_RemoveZeros(p0, p1):
-    return _fibercryptopy.FC_util_RemoveZeros(p0, p1)
+def FC_util_RemoveZeros(p0: '_GoString_') -> "GoString_ *":
+    return _fibercryptopy.FC_util_RemoveZeros(p0)
 FC_util_RemoveZeros = _fibercryptopy.FC_util_RemoveZeros
 
-def FC_util_StringInList(p0, p1, p2):
-    return _fibercryptopy.FC_util_StringInList(p0, p1, p2)
+def FC_util_StringInList(p0: '_GoString_', p1: 'Strings__Handle') -> "GoUint8 *":
+    return _fibercryptopy.FC_util_StringInList(p0, p1)
 FC_util_StringInList = _fibercryptopy.FC_util_StringInList
+
+def FC_JsonEncode_Handle(p0: 'Handle') -> "GoString_ *":
+    return _fibercryptopy.FC_JsonEncode_Handle(p0)
+FC_JsonEncode_Handle = _fibercryptopy.FC_JsonEncode_Handle
 FC_OK = _fibercryptopy.FC_OK
 FC_ERROR = _fibercryptopy.FC_ERROR
 FC_BAD_HANDLE = _fibercryptopy.FC_BAD_HANDLE
