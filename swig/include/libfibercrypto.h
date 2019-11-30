@@ -17,17 +17,6 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 /* Start of preamble from import "C" comments.  */
 
 
-#line 3 "libsky_handle_helper.go"
-
-
-  #include <string.h>
-  #include <stdlib.h>
-
-
-  #include "fctypes.h"
-
-#line 1 "cgo-generated-wrapper"
-
 #line 7 "util.pluginutil.go"
 
 
@@ -38,7 +27,7 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 
 #line 1 "cgo-generated-wrapper"
 
-#line 3 "libsky_handle.go"
+#line 3 "libfc_handle.go"
 
 
   #include <string.h>
@@ -54,6 +43,17 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 
   #include <string.h>
   #include <stdlib.h>
+
+  #include "fctypes.h"
+
+#line 1 "cgo-generated-wrapper"
+
+#line 3 "libfc_handle_helper.go"
+
+
+  #include <string.h>
+  #include <stdlib.h>
+
 
   #include "fctypes.h"
 
@@ -104,8 +104,6 @@ extern "C" {
 #endif
 
 
-extern GoUint32 SKY_JsonEncode_Handle(Handle p0, GoString_* p1);
-
 extern GoUint32 FC_util_AltcoinCaption(GoString p0, GoString_* p1);
 
 extern void FC_handle_close(Handle p0);
@@ -121,6 +119,8 @@ extern GoUint32 FC_util_FormatCoins(GoUint64 p0, GoUint64 p1, GoString_* p2);
 extern GoUint32 FC_util_RemoveZeros(GoString p0, GoString_* p1);
 
 extern GoUint32 FC_util_StringInList(GoString p0, Strings__Handle p1, GoUint8* p2);
+
+extern GoUint32 FC_JsonEncode_Handle(Handle p0, GoString_* p1);
 
 #ifdef __cplusplus
 }
