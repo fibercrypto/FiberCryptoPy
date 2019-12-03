@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Generate to Dolphin (Explorer KDE)
+.directory
+
+# Folder conf VScode
+.vscode
+.fiber/config.json
